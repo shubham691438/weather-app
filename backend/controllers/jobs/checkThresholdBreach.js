@@ -1,5 +1,7 @@
 const User = require('../../models/UserModel');
 const Weather = require('../../models/WeatherModel');
+const sendAlertEmail= require('./sendAlertEmail');
+require('dotenv').config()
 
 const checkThresholdBreach = async (mainCondition, city) => {
     try {
@@ -9,12 +11,26 @@ const checkThresholdBreach = async (mainCondition, city) => {
         for (const user of users) {
             // Check for temperature threshold breach
             if (await checkConsecutiveThreshold(user.thresholds.temperature, user.thresholds.consecutiveThreshold, city)) {
+                const msg=`
+                Dear user,
+                Temperature Threshold breached for ${city} !
+                your temperature threshold is ${user.thresholds.temperature}°C but now the temperature has exceeded the threshold.
+                Take care of yourself and your loved ones.
+                `
                 console.log(`Temperature Threshold breached for ${city} for user ${user.name}!`);
+                sendAlertEmail(user,msg)
+                
             }
 
             // Check for condition threshold breach
             if (user.thresholds.conditions.includes(mainCondition)) {
+                const msg=`
+                Dear user,
+                Condition Threshold breached for ${city} !
+                Take care of yourself and your loved ones.
+                `
                 console.log(`Condition Threshold breached for ${city} for user ${user.name}!`);
+                sendAlertEmail(user,msg)
             }
         }
     } catch (err) {
