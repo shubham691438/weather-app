@@ -4,6 +4,7 @@ const mongoose=require('mongoose')
 const cookieParser=require('cookie-parser')
 const path = require('path')
 
+
 const indexRouter=require('./api/index')
 
 
@@ -40,6 +41,8 @@ mongoose.connect(process.env.MONGO_URI)
           app.listen(port,()=>{
             console.log(`listening to port ${port}`)
             })
+          require('./controllers/jobs/weatherScheduler.js')   
+          require('./controllers/jobs/dailyWeatherSummaryScheduler.js');
         })
         .catch((err)=>{
           console.log(err)
