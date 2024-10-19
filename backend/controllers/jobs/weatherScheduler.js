@@ -12,7 +12,7 @@ const fetchWeatherData = async (city) => {
   try {
     const coordintes= await axios.get(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${process.env.WEATHER_API_KEY}`)
     const lat=coordintes.data[0].lat,lon=coordintes.data[0].lon;
-   
+    console.log(lat,lon)
     const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${process.env.WEATHER_API_KEY}`);
     const weatherData = response.data;
 

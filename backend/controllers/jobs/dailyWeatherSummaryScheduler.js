@@ -1,6 +1,6 @@
 const cron = require('node-cron');
 const Weather = require('../../models/WeatherModel'); // Model for storing weather data 
-const DailyWeatherSummary = require
+const DailyWeatherSummary = require('../../models/DailyWeatherSummaryModel'); // Model for storing daily weather summary
 
 // Helper function to calculate the dominant (most frequent) weather condition
 const getDominantCondition = (weatherData) => {
@@ -13,48 +13,53 @@ const getDominantCondition = (weatherData) => {
 };
 
 // Scheduler to run at midnight (0 0 * * * => At 00:00 every day)
-cron.schedule('*/1 * * * *', async () => {
-    console.log('Calculating daily weather summary...');
+cron.schedule('0 0 * * *', async () => {
 
-    const today = new Date();
-    today.setHours(0, 0, 0, 0); // Set to midnight
-    const tomorrow = new Date(today);
-    tomorrow.setDate(today.getDate() + 1);
+    try {
+        console.log('Calculating daily weather summary...');
 
-    // Get distinct cities from the weather collection
-    const cities = await Weather.distinct('city');
+        const today = new Date();
+        today.setHours(0, 0, 0, 0); // Set to midnight
+        const tomorrow = new Date(today);
+        tomorrow.setDate(today.getDate() + 1);
 
-    for (const city of cities) {
-        // Fetch all weather data for the city from the current day
-        const weatherData = await Weather.find({
-            city,
-            timeOfData: { $gte: today, $lt: tomorrow }
-        });
+        // Get distinct cities from the weather collection
+        const cities = await Weather.distinct('city');
 
-        if (weatherData.length === 0) {
-            console.log(`No weather data for ${city} today.`);
-            continue;
+        for (const city of cities) {
+            // Fetch all weather data for the city from the current day
+            const weatherData = await Weather.find({
+                city,
+                timeOfData: { $gte: today, $lt: tomorrow }
+            });
+
+            if (weatherData.length === 0) {
+                console.log(`No weather data for ${city} today.`);
+                continue;
+            }
+
+            // Calculate daily aggregates
+            const avgTemperature = weatherData.reduce((sum, data) => sum + data.temperature, 0) / weatherData.length;
+            const maxTemperature = Math.max(...weatherData.map(data => data.temperature));
+            const minTemperature = Math.min(...weatherData.map(data => data.temperature));
+            const dominantCondition = getDominantCondition(weatherData);
+
+            // Save the summary to the DailyWeatherSummary collection
+            const summary = new DailyWeatherSummary({
+                city,
+                date: today,
+                avgTemperature: avgTemperature.toFixed(2),
+                maxTemperature,
+                minTemperature,
+                dominantCondition
+            });
+
+            await summary.save();
+            console.log(`Daily summary saved for ${city}`);
         }
 
-        // Calculate daily aggregates
-        const avgTemperature = weatherData.reduce((sum, data) => sum + data.temperature, 0) / weatherData.length;
-        const maxTemperature = Math.max(...weatherData.map(data => data.temperature));
-        const minTemperature = Math.min(...weatherData.map(data => data.temperature));
-        const dominantCondition = getDominantCondition(weatherData);
-
-        // Save the summary to the DailyWeatherSummary collection
-        const summary = new DailyWeatherSummary({
-            city,
-            date: today,
-            avgTemperature: avgTemperature.toFixed(2),
-            maxTemperature,
-            minTemperature,
-            dominantCondition
-        });
-
-        await summary.save();
-        console.log(`Daily summary saved for ${city}`);
+        console.log('Daily weather summary calculation completed.');
+    } catch (error) {
+        console.error('Error calculating daily weather summary:', error.message);
     }
-
-    console.log('Daily weather summary calculation completed.');
 });

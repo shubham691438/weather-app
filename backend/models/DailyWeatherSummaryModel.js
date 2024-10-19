@@ -27,6 +27,5 @@ const dailyWeatherSummarySchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
-const DailyWeatherSummary = mongoose.model('DailyWeatherSummary', dailyWeatherSummarySchema);
 
-module.exports = DailyWeatherSummary;
+module.exports = mongoose.model('DailyWeatherSummary', dailyWeatherSummarySchema);
