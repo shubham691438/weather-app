@@ -1,6 +1,7 @@
 const cron = require('node-cron');
 const axios = require('axios');
 const Weather = require('../../models/WeatherModel');
+const checkThresholdBreach = require('./checkThresholdBreach');
 
 require('dotenv').config()
 
@@ -40,6 +41,7 @@ const fetchWeatherData = async (city) => {
         console.log('Weather data saved to the database');
         console.log('---------------------------------------');
 
+        checkThresholdBreach(weatherData.weather[0].main,city);
          
     }).catch((error) => {
       console.error('Error saving weather data to the database:', error.message);})
@@ -59,7 +61,8 @@ const fetchWeatherForAllCities = () => {
 
 // fetchWeatherForAllCities();
 // Schedule the task to run every 5 minutes
-cron.schedule('*/5 * * * *', () => {
+cron.schedule('*/1 * * * *', () => {
   console.log('Fetching weather data at:', new Date().toLocaleTimeString());
   fetchWeatherForAllCities();
+  
 });
