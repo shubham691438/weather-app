@@ -5,7 +5,7 @@ require('dotenv').config()
 const sendAlertEmail=async(user,msg)=>{
 
     try{
-        console.log(process.env.OFFICIAL_EMAIL,process.env.PASS); 
+        
         const transporter = nodemailer.createTransport({
             host: 'smtp.gmail.com',
             port: 587,

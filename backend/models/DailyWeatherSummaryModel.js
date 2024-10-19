@@ -24,6 +24,14 @@ const dailyWeatherSummarySchema = new mongoose.Schema({
     dominantCondition: {
         type: String,
         required: true
+    },
+    avgHumidity: {
+        type: Number,
+        required: true
+    },
+    avgWindSpeed: {
+        type: Number,
+        required: true
     }
 }, { timestamps: true });
 

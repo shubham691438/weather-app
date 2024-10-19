@@ -13,7 +13,7 @@ const getDominantCondition = (weatherData) => {
 };
 
 // Scheduler to run at midnight (0 0 * * * => At 00:00 every day)
-cron.schedule('0 0 * * *', async () => {
+cron.schedule('*/5 * * * *', async () => {
 
     try {
         console.log('Calculating daily weather summary...');
@@ -42,6 +42,8 @@ cron.schedule('0 0 * * *', async () => {
             const avgTemperature = weatherData.reduce((sum, data) => sum + data.temperature, 0) / weatherData.length;
             const maxTemperature = Math.max(...weatherData.map(data => data.temperature));
             const minTemperature = Math.min(...weatherData.map(data => data.temperature));
+            const avgHumidity = weatherData.reduce((sum, data) => sum + data.humidity, 0) / weatherData.length;
+            const avgWindSpeed = weatherData.reduce((sum, data) => sum + data.windSpeed, 0) / weatherData.length;
             const dominantCondition = getDominantCondition(weatherData);
 
             // Save the summary to the DailyWeatherSummary collection
@@ -51,7 +53,9 @@ cron.schedule('0 0 * * *', async () => {
                 avgTemperature: avgTemperature.toFixed(2),
                 maxTemperature,
                 minTemperature,
-                dominantCondition
+                dominantCondition,
+                avgHumidity: avgHumidity.toFixed(2),
+                avgWindSpeed: avgWindSpeed.toFixed(2)
             });
 
             await summary.save();

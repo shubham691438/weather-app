@@ -13,6 +13,7 @@ const fetchWeatherData = async (city) => {
   try {
     const coordintes= await axios.get(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${process.env.WEATHER_API_KEY}`)
     const lat=coordintes.data[0].lat,lon=coordintes.data[0].lon;
+
     const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${process.env.WEATHER_API_KEY}`);
     const weatherData = response.data;
 
@@ -27,6 +28,8 @@ const fetchWeatherData = async (city) => {
       temperature: tempCelsius,
       feelsLike: feelsLikeCelsius,
       mainCondition: weatherData.weather[0].main,
+      humidity: weatherData.main.humidity,
+      windSpeed: weatherData.wind.speed,
       timeOfData: new Date(weatherData.dt * 1000),
     });
 
@@ -36,6 +39,8 @@ const fetchWeatherData = async (city) => {
         console.log(`Temperature: ${tempCelsius.toFixed(2)}°C`);
         console.log(`Feels like: ${feelsLikeCelsius.toFixed(2)}°C`);
         console.log(`Main Condition: ${weatherData.weather[0].main}`);
+        console.log(`Humidity: ${weatherData.main.humidity}%`);
+        console.log(`Wind Speed: ${weatherData.wind.speed} m/s`);
         console.log(`Time of Data: ${new Date(weatherData.dt * 1000)}`);
         console.log('Weather data saved to the database');
         console.log('---------------------------------------');

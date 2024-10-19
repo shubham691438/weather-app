@@ -20,6 +20,14 @@ const weatherSchema=new mongoose.Schema({
     timeOfData:{
         type:Date,
         required:true
+    },
+    humidity:{
+        type:Number,
+        required:true
+    },
+    windSpeed:{
+        type:Number,
+        required:true
     }
 },{timestamps:true})
 
