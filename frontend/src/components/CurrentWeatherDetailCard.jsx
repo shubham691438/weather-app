@@ -50,7 +50,7 @@ const CurrentWeatherDetailCard = ({city,currTemperature,currFeelsLike,currHumidi
         >
             <img className="w-8 h-8 "  src={windIcon} alt="wind icon" />
             <div className="">
-            <p className="font-bold text-2xl text-right text-[#ff5a00]">{currWindSpeed} m/s</p>
+            <p className="font-bold text-2xl text-right text-[#ff5a00]">{currWindSpeed.toFixed(0)} m/s</p>
             <p className="text-sm text-white text-right">Wind</p>
             </div>
         </div>
@@ -61,7 +61,7 @@ const CurrentWeatherDetailCard = ({city,currTemperature,currFeelsLike,currHumidi
         >
             <img className="w-8 h-8" src={humidityIcon} alt="humidity icon" />
             <div className="">
-            <p className="font-bold text-2xl text-right text-[#ff5a00]">{currHumidity} %</p>
+            <p className="font-bold text-2xl text-right text-[#ff5a00]">{currHumidity.toFixed(0)} %</p>
             <p className="text-sm text-white text-right">Humidity</p>
             </div>
         </div>

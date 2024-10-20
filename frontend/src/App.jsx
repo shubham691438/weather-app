@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 import bgVideo from './assets/bgVideo.mp4'
 import icon from './assets/icon.png'
 import thermometerIcon from './assets/thermometer.png'
@@ -29,6 +29,27 @@ function App() {
     e.preventDefault();
     setCity(searchCity);
   }
+
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
+  useEffect(() => {
+    const fetchWeatherData = async (city) => {
+      try {
+        const response = await fetch(`${backendUrl}/api/weather/latestWeather/${city}`);
+        const data = await response.json();
+        setCurrTemperature(data.temperature);
+        setCurrFeelsLike(data.feelsLike);
+        setCurrMainCondition(data.mainCondition);
+        setCurrHumidity(data.humidity);
+        setCurrWindSpeed(data.windSpeed);
+      } catch (error) {
+        console.error('Error fetching weather data:', error);
+      }
+    };
+
+    fetchWeatherData(city);
+  }, [city]);
+
  
   return (
     <div>

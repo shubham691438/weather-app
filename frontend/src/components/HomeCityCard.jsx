@@ -8,8 +8,8 @@ const HomeCityCard = ({city,currTemperature,currFeelsLike}) => {
     >
         <div id="left" className="flex flex-col">
         <div id="top" className="mb-6">
-            <p className="font-bold text-5xl text-white">{currTemperature}°C</p>
-            <p className="font-semibold text-md text-white">Feels Like: <span>{currFeelsLike} °C</span></p>
+            <p className="font-bold text-5xl text-white">{currTemperature.toFixed(0)}°C</p>
+            <p className="font-semibold text-md text-white">Feels Like: <span>{currFeelsLike.toFixed(0)} °C</span></p>
             {/* <p className="font-semibold text-md text-white">Now</p> */}
             
         </div>
