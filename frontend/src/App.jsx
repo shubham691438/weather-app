@@ -47,26 +47,27 @@ function App() {
       </div>
 
       <div>
-        
-      {/* Home city card */}
-      <div
-        className="mt-10 py-5 px-10 w-[800px] justify-between flex rounded-3xl shadow-2xl cursor-pointer transform ease-in-out bg-white/20 duration-500 backdrop-blur-sm   hover:scale-[105%]"
-      >
-        <div id="left" className="flex flex-col">
-          <div id="top" className="mb-6">
-            <p className="font-bold text-5xl text-white">{"25"}°C</p>
-            <p className="font-semibold text-md text-white">Now</p>
+
+      <div className='flex justify-between'>
+          {/* Home city card */}
+          <div
+            className="mt-10 py-5 px-10 w-[385px] justify-between flex rounded-3xl shadow-2xl cursor-pointer transform ease-in-out bg-white/20 duration-500 backdrop-blur-sm   hover:scale-[105%]"
+          >
+            <div id="left" className="flex flex-col">
+              <div id="top" className="mb-6">
+                <p className="font-bold text-5xl text-white">{"25"}°C</p>
+                <p className="font-semibold text-md text-white">Now</p>
+              </div>
+              <p className="font-semibold text-xl text-white">{"Bangalore"}</p>
+            </div>
+            <div id="right" className="flex justify-end items-center">
+              <img className="w-28 h-28" src={smilySun} alt="weather icon" />
+            </div>
           </div>
-          <p className="font-semibold text-xl text-white">{"Bangalore"}</p>
-        </div>
-        <div id="right" className="flex justify-end items-center">
-          <img className="w-28 h-28" src={smilySun} alt="weather icon" />
-        </div>
-      </div>
 
       {/* Weather Details */}
       <div
-        className="flex  justify-between bg-[#0198afb6] p-3 backdrop-blur-2xl ease-in-out duration-500 rounded-xl w-[800px] mt-5"
+        className="mt-10 py-5 px-10 w-[385px] justify-between flex rounded-3xl shadow-2xl cursor-pointer transform ease-in-out bg-white/20 duration-500 backdrop-blur-sm   hover:scale-[105%]"
       >
         <div id="left" className="flex flex-col justify-start">
           {/* Icon */}
@@ -113,9 +114,65 @@ function App() {
         </div>
       </div>
     </div>
+    
+    </div>  
+    {/* Weather summary */}
+    <div
+       className="flex  justify-between bg-[#0198afb6] p-3 backdrop-blur-2xl ease-in-out duration-500 rounded-xl w-[800px] mt-5"
+      >
+        <div className='flex flex-col'>
+          <p class="max-w-lg text-3xl font-semibold leading-normal text-gray-900 dark:text-white">Weather Summary for Yesterday</p>
+          
+          <div id="left" className="mt-6 flex  justify-center">
+            {/* Icon */}
+            <img className="w-12 h-12 " src={rainIcon} alt="weather icon" />
 
+            <div>
+              {/* Weather */}
+              <p className="font-bold text-4xl text-white">{"Rain"}</p>
+              {/* Condition */}
+              <p className="font-semibold text-white">Dominant Weather Condition</p>
+            </div>
+          </div>
+        </div>
 
+        <div id="right" className="w-1/2 flex-col space-y-2">
+          {/* Temperature */}
+          <div
+            className="flex w-full justify-around items-center bg-white/30 rounded-lg p-1 gap-6"
+          >
+          <img className="w-8 h-8" src={thermometerIcon} alt="temperature icon" />
+            <div className="">
+              <p className="font-bold text-2xl text-right text-[#ff5a00]">{"25"} °C</p>
+              <p className="text-sm text-white text-right">Average Temperature</p>
+            </div>
+          </div>
+
+          {/* Wind Speed */}
+          <div
+            className="flex w-full justify-around items-center bg-white/30 rounded-lg p-1 gap-6"
+          >
+            <img className="w-8 h-8 "  src={windIcon} alt="wind icon" />
+            <div className="">
+              <p className="font-bold text-2xl text-right text-[#ff5a00]">{"12"} m/s</p>
+              <p className="text-sm text-white text-right">Averge Wind</p>
+            </div>
+          </div>
+
+          {/* Humidity */}
+          <div
+            className="flex w-full justify-around items-center bg-white/30 rounded-lg p-1 gap-6"
+          >
+            <img className="w-8 h-8" src={humidityIcon} alt="humidity icon" />
+            <div className="">
+              <p className="font-bold text-2xl text-right text-[#ff5a00]">{"65"} %</p>
+              <p className="text-sm text-white text-right">Average Humidity</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+    
   )
 }
 
