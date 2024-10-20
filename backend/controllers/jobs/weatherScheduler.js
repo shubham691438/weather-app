@@ -6,7 +6,7 @@ const checkThresholdBreach = require('./checkThresholdBreach');
 require('dotenv').config()
 
 
-const cities = ['Delhi', 'Mumbai', 'Chennai', 'Bangalore', 'Kolkata', 'Hyderabad'];
+const cities = ['delhi', 'mumbai', 'chennai', 'bangalore', 'kolkata', 'hyderabad'];
 
 // Function to fetch weather data for a city
 const fetchWeatherData = async (city) => {
@@ -27,7 +27,7 @@ const fetchWeatherData = async (city) => {
       city,
       temperature: tempCelsius,
       feelsLike: feelsLikeCelsius,
-      mainCondition: weatherData.weather[0].main,
+      mainCondition: weatherData.weather[0].main.toLowerCase(),
       humidity: weatherData.main.humidity,
       windSpeed: weatherData.wind.speed,
       timeOfData: new Date(weatherData.dt * 1000),
@@ -65,7 +65,7 @@ const fetchWeatherForAllCities = () => {
 
 // fetchWeatherForAllCities();
 // Schedule the task to run every 5 minutes
-cron.schedule('*/1 * * * *', () => {
+cron.schedule('*/5 * * * *', () => {
   console.log('Fetching weather data at:', new Date().toLocaleTimeString());
   fetchWeatherForAllCities();
   
