@@ -1,6 +1,4 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import bgVideo from './assets/bgVideo.mp4'
 import icon from './assets/icon.png'
 import smilySun from './assets/smilySun.png'
@@ -143,7 +141,13 @@ function App() {
           >
           <img className="w-8 h-8" src={thermometerIcon} alt="temperature icon" />
             <div className="">
-              <p className="font-bold text-2xl text-right text-[#ff5a00]">{"25"} °C</p>
+            <div className='flex justify-end'>
+              <span className="font-bold text-2xl text-right text-[#ff5a00]">{"25"} °C</span>
+              <div className="flex flex-col text-right ml-2">
+                <span className="text-sm text-white">Min: {"15"} °C</span>
+                <span className="text-sm text-white">Max: {"30"} °C</span>
+              </div>
+            </div>
               <p className="text-sm text-white text-right">Average Temperature</p>
             </div>
           </div>
