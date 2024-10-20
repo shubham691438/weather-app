@@ -1,15 +1,15 @@
 import React from 'react'
 import smilySun from '../assets/smilySun.png'
 
-const HomeCityCard = ({city,currTemperature,currFeelsLike}) => {
+const HomeCityCard = ({currUnit,city,currTemperature,currFeelsLike}) => {
   return (
     <div
-        className="mt-10 py-5 px-10 w-[385px] justify-between flex rounded-3xl shadow-2xl cursor-pointer transform ease-in-out bg-white/20 duration-500 backdrop-blur-sm   hover:scale-[105%]"
+        className="py-5 px-10 w-[385px] justify-between flex rounded-3xl shadow-2xl cursor-pointer transform ease-in-out bg-white/20 duration-500 backdrop-blur-sm   hover:scale-[105%]"
     >
         <div id="left" className="flex flex-col">
         <div id="top" className="mb-6">
-            <p className="font-bold text-5xl text-white">{currTemperature.toFixed(0)}°C</p>
-            <p className="font-semibold text-md text-white">Feels Like: <span>{currFeelsLike.toFixed(0)} °C</span></p>
+            <p className="font-bold text-5xl text-white">{currTemperature.toFixed(0)}{currUnit=='K'?' ':'°'}{currUnit}</p>
+            <p className="font-semibold text-md text-white">Feels Like: <span>{currFeelsLike.toFixed(0)} {currUnit=='K'?' ':'°'}{currUnit}</span></p>
             {/* <p className="font-semibold text-md text-white">Now</p> */}
             
         </div>
