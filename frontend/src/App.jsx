@@ -11,8 +11,25 @@ import CurrentWeatherDetailCard from './components/CurrentWeatherDetailCard'
 import WeatherSummary from './components/WeatherSummary'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [city, setCity] = useState('bangalore');
+  const [searchCity, setSearchCity] = useState('');
 
+  const [currTemperature, setCurrTemperature] = useState(25);
+  const [currWindSpeed, setCurrWindSpeed] = useState(12);
+  const [currHumidity, setCurrHumidity] = useState(65);
+  const [currFeelsLike, setCurrFeelsLike] = useState(25);
+  const [currMainCondition, setCurrMainCondition] = useState("Rain");
+
+  const handleChange = (e) => {
+    e.preventDefault();
+    setSearchCity(e.target.value);
+  }
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    setCity(searchCity);
+  }
+ 
   return (
     <div>
        {/* Background Video */}
@@ -33,11 +50,13 @@ function App() {
             type="text"
             name="city"
             placeholder="Enter a city..."
+            value={searchCity}
+            onChange={handleChange}
             required
-            class="py-2 px-3 w-full rounded-full bg-white text-white text-lg outline outline-2 backdrop-blur-lg ease-in-out duration-300 outline-white/70 focus:bg-white/20"
+            class="py-2 px-3 w-full rounded-full bg-white text-black text-lg outline outline-2 backdrop-blur-lg ease-in-out duration-300 outline-white/70 focus:bg-white/20"
           />
           
-          <button type="submit" class=" p-2.5  font-black h-full text-2xl text-white bg-white/50  hover:bg-slate-200   rounded-full hover:border-sky-100">
+          <button onClick={handleSearch} class=" p-2.5  font-black h-full text-2xl text-white bg-white/50  hover:bg-slate-200   rounded-full hover:border-sky-100">
                 <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                 </svg>
@@ -47,11 +66,11 @@ function App() {
 
      
       <div className='flex justify-between'>
-        <HomeCityCard/>
-        <CurrentWeatherDetailCard/>
+        <HomeCityCard city={city} currTemperature={currTemperature} currFeelsLike={currFeelsLike}/>
+        <CurrentWeatherDetailCard city={city} currTemperature={currTemperature} currWindSpeed={currWindSpeed} currHumidity={currHumidity} currFeelsLike={currFeelsLike} currMainCondition={currMainCondition}/>
       </div>
    
-      <WeatherSummary/>
+      <WeatherSummary city={city}/>
     
     </div>
     
