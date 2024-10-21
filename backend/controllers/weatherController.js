@@ -22,7 +22,7 @@ const getWeatherSummaryByDateAndCity = async (req, res) => {
         });
 
         if (!summary) {
-            return res.status(404).json({ message: 'Summary not found' });
+            return res.status(201).json({ message: 'Summary not found' });
         }
 
         res.json(summary);
@@ -30,6 +30,40 @@ const getWeatherSummaryByDateAndCity = async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 };
+
+const getWeatherSummaryForLastDays = async (req, res) => {
+    try {
+        const { city, days } = req.params; 
+       
+
+        // Get today's date and set it to midnight (00:00:00)
+        const today = new Date();
+        const startOfToday = new Date(today.setHours(0, 0, 0, 0));
+
+        // Calculate the start date (today minus 'days' days)
+        const pastDate = new Date();
+        pastDate.setDate(today.getDate() - parseInt(days));
+        const startOfPastDate = new Date(pastDate.setHours(0, 0, 0, 0)); 
+
+        // Query the database for weather summaries in the range [startOfPastDate, startOfToday]
+        const summaries = await DailyWeatherSummary.find({
+            city,
+            date: {
+                $gte: startOfPastDate, 
+                $lte: startOfToday     
+            }
+        });
+
+        if (!summaries || summaries.length === 0) {
+            return res.status(404).json({ message: `No summaries found for the last ${days} days.` });
+        }
+
+        res.json(summaries);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
 
 const getLatestWeatherByCity = async (req, res) => {
     try{
@@ -41,4 +75,4 @@ const getLatestWeatherByCity = async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 }
-module.exports = { getWeatherSummaryByDateAndCity,getLatestWeatherByCity };
+module.exports = { getWeatherSummaryByDateAndCity,getWeatherSummaryForLastDays,getLatestWeatherByCity };

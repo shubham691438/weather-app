@@ -64,8 +64,8 @@ const fetchWeatherForAllCities = () => {
 };
 
 // fetchWeatherForAllCities();
-// Schedule the task to run every 5 minutes
-cron.schedule('*/5 * * * *', () => {
+// Schedule the task to run every 10 minutes
+cron.schedule('*/10 * * * *', () => {
   console.log('Fetching weather data at:', new Date().toLocaleTimeString());
   fetchWeatherForAllCities();
   
