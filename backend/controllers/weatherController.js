@@ -38,16 +38,16 @@ const getWeatherSummaryForLastDays = async (req, res) => {
         const { city, days } = req.params; 
        
 
-        // Get today's date and set it to midnight (00:00:00)
+        
         const today = new Date();
         const startOfToday = new Date(today.setHours(0, 0, 0, 0));
 
-        // Calculate the start date (today minus 'days' days)
+        
         const pastDate = new Date();
         pastDate.setDate(today.getDate() - parseInt(days));
         const startOfPastDate = new Date(pastDate.setHours(0, 0, 0, 0)); 
 
-        // Query the database for weather summaries in the range [startOfPastDate, startOfToday]
+   
         const summaries = await DailyWeatherSummary.find({
             city,
             date: {
@@ -83,14 +83,17 @@ const getLatestWeatherByCity = async (req, res) => {
 // Function to get threshold breaches for the last 7 days
 const getBreachesForLast7Days = async (req,res) => {
     try {
+        const {userId} = req.params;
         const today = new Date();
         const sevenDaysAgo = subDays(today, 7);
 
        
         const breaches = await ThresholdBreach.find({
-            user: userId,
-            timeBreached: { $gte: sevenDaysAgo, $lte: today }
+            userId: userId,
+            time: { $gte: sevenDaysAgo, $lte: today }
         });
+
+        // console.log(breaches);
 
     
         res.status(200).json(breaches);

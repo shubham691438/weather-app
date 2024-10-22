@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import WeatherSummaryChart from '../components/WeatherSummaryChart';
-import { useOutletContext } from 'react-router-dom';
+import { Link, useOutletContext } from 'react-router-dom';
 import PieChart from '../components/PieChart';
 
 
@@ -159,6 +159,10 @@ const Dashboard = () => {
 
     return (
         <div >
+            {/* <div className='fixed top-20 left-5'>
+                <Link to='/dashboard'>Historical Weather Data</Link>
+               
+            </div> */}
             <h1>Weather Dashboard : {city}</h1>
             <div className='px-3 py-2'> 
                 <div className="grid grid-cols-2 gap-4">

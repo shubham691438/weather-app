@@ -3,6 +3,7 @@ require('dotenv').config()
 const mongoose=require('mongoose')
 const cookieParser=require('cookie-parser')
 const path = require('path')
+const cors=require('cors')
 
 
 const indexRouter=require('./api/index')
@@ -22,12 +23,7 @@ app.use((req,res,next)=>{
     console.log(req.path,req.method)
     next()
 })
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  next();
-});
+app.use(cors())
 
 //for api routes
 app.use('/api',indexRouter)

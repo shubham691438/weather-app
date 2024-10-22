@@ -12,7 +12,7 @@ const checkThresholdBreach = async (mainCondition, city) => {
             // Check for temperature threshold breach
             if (await checkConsecutiveThreshold(user.thresholds.temperature, user.thresholds.consecutiveThreshold, city)) {
                 const msg = `
-                Dear user,
+                Dear user ${user.name},
                 Temperature Threshold breached for ${city}!
                 Your temperature threshold is ${user.thresholds.temperature}°C, but now the temperature has exceeded the threshold.
                 Take care of yourself and your loved ones.
@@ -23,7 +23,7 @@ const checkThresholdBreach = async (mainCondition, city) => {
                 
                 // Log breach event
                 await ThresholdBreach.create({
-                    user: user._id,
+                    userId: user._id,
                     city: city,
                     breachedThreshold: "temperature",
                 });
@@ -32,7 +32,7 @@ const checkThresholdBreach = async (mainCondition, city) => {
             // Check for condition threshold breach
             if (user.thresholds.conditions.includes(mainCondition)) {
                 const msg = `
-                Dear user,
+                Dear user ${user.name},
                 Condition Threshold breached for ${city}!
                 The weather condition of ${mainCondition} has met your defined threshold.
                 `;
@@ -42,7 +42,7 @@ const checkThresholdBreach = async (mainCondition, city) => {
 
                 // Log breach event
                 await ThresholdBreach.create({
-                    user: user._id,
+                    userId: user._id,
                     city: city,
                     breachedThreshold: "condition",
                 });

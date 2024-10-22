@@ -6,8 +6,8 @@ import Lottie from "lottie-react";
 import loginAnimation from '../assets/json/loginAnimation.json';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('test@gmail.com');
+  const [password, setPassword] = useState('12345678');
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const navigate = useNavigate();
@@ -42,7 +42,7 @@ const Login = () => {
       console.log('Response Data:', data);
 
       // Redirect to the dashboard or home after successful login
-      navigate('/dashboard');
+      navigate(`/threshold-breach-dashboard/${data.userId}/${data.name}`);
     } catch (error) {
       setError(error.message);
       setSuccess(null);

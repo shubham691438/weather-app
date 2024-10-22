@@ -5,11 +5,12 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [city, setCity] = useState('');
-  const [temperatureThreshold, setTemperatureThreshold] = useState(35);
+  const [userId, setUserId] = useState('');
+  const [name, setName] = useState('test');
+  const [email, setEmail] = useState('test@gmail.com');
+  const [password, setPassword] = useState('12345678');
+  const [city, setCity] = useState('bangalore');
+  const [temperatureThreshold, setTemperatureThreshold] = useState(15);
   const [conditions, setConditions] = useState(['Rain', 'Snow']);
   const [consecutiveThreshold, setConsecutiveThreshold] = useState(1);
   const [error, setError] = useState(null);
@@ -51,7 +52,7 @@ const Register = () => {
       setSuccess('Registration successful!');
       setError(null);
       console.log('Response Data:', data);
-      navigate('/dashboard');
+      navigate(`/threshold-breach-dashboard/${data.userId}/${data.name}`);
     } catch (error) {
         // console.log(error);
       setError(error.message);
@@ -139,7 +140,7 @@ const Register = () => {
                     onChange={(e) => setCity(e.target.value)}
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
                     >
-                        <option value="bangalore">bangalore</option>
+                        <option defaultValue="bangalore">bangalore</option>
                         <option value="delhi">Delhi</option>
                         <option value="mumbai">Mumbai</option>
                         <option value="kolkata">Kolkata</option>
