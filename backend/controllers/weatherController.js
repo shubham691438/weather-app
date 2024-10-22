@@ -1,5 +1,7 @@
 const DailyWeatherSummary = require('../models/DailyWeatherSummaryModel.js');
 const Weather = require('../models/WeatherModel.js');
+const { format, subDays, isSameDay, parseISO } = require('date-fns');
+const ThresholdBreach = require('../models/ThresholdBreachModel.js');
 
 const getWeatherSummaryByDateAndCity = async (req, res) => {
     try {
@@ -75,4 +77,25 @@ const getLatestWeatherByCity = async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 }
-module.exports = { getWeatherSummaryByDateAndCity,getWeatherSummaryForLastDays,getLatestWeatherByCity };
+
+
+
+// Function to get threshold breaches for the last 7 days
+const getBreachesForLast7Days = async (req,res) => {
+    try {
+        const today = new Date();
+        const sevenDaysAgo = subDays(today, 7);
+
+       
+        const breaches = await ThresholdBreach.find({
+            user: userId,
+            timeBreached: { $gte: sevenDaysAgo, $lte: today }
+        });
+
+    
+        res.status(200).json(breaches);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+module.exports = { getWeatherSummaryByDateAndCity,getWeatherSummaryForLastDays,getLatestWeatherByCity,getBreachesForLast7Days };
