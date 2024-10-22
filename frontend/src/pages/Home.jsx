@@ -142,8 +142,8 @@ const home = () => {
 
   
   return (
-    <>
-        <div>
+    <div className='max-w-3xl mx-auto'>
+        <div >
         
             <form class="max-w-[200px] mt-5">
                 <select onChange={handleUnitSelect} id="countries" class="bg-gray-50  text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
@@ -162,7 +162,7 @@ const home = () => {
         </div>
     
         <WeatherSummary currUnit={currUnit} city={city} avgTemperature={avgTemperature} minTemperature={minTemperature} maxTemperature={maxTemperature} avgWindSpeed={avgWindSpeed} avgHumidity={avgHumidity} dominantCondition={dominantCondition}/>
-    </>
+    </div>
   )
 }
 

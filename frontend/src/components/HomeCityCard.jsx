@@ -4,7 +4,7 @@ import smilySun from '../assets/smilySun.png'
 const HomeCityCard = ({currUnit,city,currTemperature,currFeelsLike}) => {
   return (
     <div
-        className="py-5 px-10 w-[385px] justify-between flex rounded-3xl shadow-2xl cursor-pointer transform ease-in-out bg-white/20 duration-500 backdrop-blur-sm   hover:scale-[105%]"
+        className="py-5 px-10  justify-between flex rounded-3xl shadow-2xl cursor-pointer transform ease-in-out bg-white/20 duration-500 backdrop-blur-sm   hover:scale-[105%]"
     >
         <div id="left" className="flex flex-col">
         <div id="top" className="mb-6">

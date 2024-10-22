@@ -10,7 +10,7 @@ const WeatherSummary = ({ currUnit,city,avgTemperature,avgHumidity,minTemperatur
  
 
   return (
-    <div className="flex justify-between bg-[#0198afb6] p-3 backdrop-blur-2xl ease-in-out duration-500 rounded-xl w-[800px] mt-5">
+    <div className="flex justify-between bg-[#0198afb6] p-3 backdrop-blur-2xl ease-in-out duration-500 rounded-xl  mt-5">
       <div className="flex flex-col">
         <p className="max-w-lg text-2xl font-semibold leading-normal text-gray-900 dark:text-white">
           Yesterday's Weather Report for {city}

@@ -58,10 +58,9 @@ function App() {
                 </svg>
             </button>
         </form> 
-
-        <Outlet context={city}/>
-        
       </div>
+
+      <Outlet context={city}/>
 
       
     
