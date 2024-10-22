@@ -1,46 +1,74 @@
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/icon.png';
 import bgVideo from '../assets/bgVideo.mp4';
+import Lottie from "lottie-react";
+import loginAnimation from '../assets/json/loginAnimation.json';
 
 const Login = () => {
-  // Separate useState for each form field
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
+  const navigate = useNavigate();
 
-  // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Create the form data object from individual states
     const formData = {
       email,
       password,
     };
 
-    // Logic to send `formData` to the backend API
-    console.log('Login Data Submitted:', formData);
-    // Make a POST request with formData to your backend
+    const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
+    try {
+      const response = await fetch(`${backendUrl}/api/user/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error);
+      }
+
+      setSuccess('Login successful!');
+      setError(null);
+      console.log('Response Data:', data);
+
+      // Redirect to the dashboard or home after successful login
+      navigate('/dashboard');
+    } catch (error) {
+      setError(error.message);
+      setSuccess(null);
+    }
   };
 
   return (
     <div>
-      {/* Background video */}
       <video autoPlay muted loop id="backgroundVideo">
         <source src={bgVideo} type="video/mp4" />
       </video>
 
-      <div className='h-full'>
-        <div className="flex min-h-full flex-col justify-center px-6 lg:px-8 ">
+      <div className="h-full">
+        <div className="flex min-h-full flex-col justify-center px-6 lg:px-8">
           <div className="flex max-w-md mx-auto items-center justify-center">
             <h1 className="text-white font-bold text-2xl">Weather Me</h1>
-            <img src={logo} alt="logo" className="w-14 h-14" />
+            <img src={logo} alt="" className="w-14 h-14" />
           </div>
 
-          <div className="py-auto sm:mx-auto sm:w-full sm:max-w-sm justify-between bg-[#0198afb6] p-3 backdrop-blur-2xl ease-in-out duration-500 rounded-xl mt-5 ">
-            <form className="space-y-6 " onSubmit={handleSubmit}>
+          <div className="sm:mx-auto sm:w-full sm:max-w-sm justify-between bg-[#0198afb6] p-3 backdrop-blur-2xl ease-in-out duration-500 rounded-xl mt-5 p5">
+            <form className="space-y-" onSubmit={handleSubmit}>
               {/* Email */}
               <div>
-                <label htmlFor="email" className="text-left block text-sm font-medium leading-6 text-white">Email address</label>
+                <label htmlFor="email" className="text-left block text-sm font-medium leading-6 text-white">
+                  Email address
+                </label>
                 <div>
                   <input
                     id="email"
@@ -56,7 +84,9 @@ const Login = () => {
 
               {/* Password */}
               <div>
-                <label htmlFor="password" className="text-left block text-sm font-medium leading-6 text-white">Password</label>
+                <label htmlFor="password" className="text-left block text-sm font-medium leading-6 text-white">
+                  Password
+                </label>
                 <div>
                   <input
                     id="password"
@@ -70,7 +100,13 @@ const Login = () => {
                 </div>
               </div>
 
-              {/* Submit Button */}
+              <div className="text-center">
+                {error && <p className="rounded-full text-red-500 font-medium text-sm">{error}</p>}
+                {success && <p className="rounded-full text-green-500 font-medium text-sm">{success}</p>}
+                {!error && !success && <p className="m-7">{" "}</p>}
+              </div>
+
+              {/* Submit button */}
               <div>
                 <button
                   type="submit"
@@ -81,14 +117,19 @@ const Login = () => {
               </div>
             </form>
 
-            {/* Register Link */}
             <p className="text-center text-sm text-gray-500">
-              Not a member?{' '}
-              <a href="#" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Register now</a>
+              Not registered yet?
+              <Link to="/register" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+                Register
+              </Link>
             </p>
           </div>
         </div>
       </div>
+
+       <div className='w-[400px] h-[300px] mx-auto'>
+        <Lottie animationData={loginAnimation} />
+        </div> 
     </div>
   );
 };

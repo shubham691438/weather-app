@@ -1,22 +1,24 @@
 import React, { useState } from 'react';
 import logo from '../assets/icon.png';
 import bgVideo from '../assets/bgVideo.mp4';
+import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
-  // Separate useState for each form field
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [city, setCity] = useState('');
-  const [temperatureThreshold, setTemperatureThreshold] = useState(35); // default value
-  const [conditions, setConditions] = useState(['Rain', 'Snow']); // default conditions
-  const [consecutiveThreshold, setConsecutiveThreshold] = useState(1); // default value
+  const [temperatureThreshold, setTemperatureThreshold] = useState(35);
+  const [conditions, setConditions] = useState(['Rain', 'Snow']);
+  const [consecutiveThreshold, setConsecutiveThreshold] = useState(1);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
+  const navigate = useNavigate();
 
-  // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Create the form data object from individual states
     const formData = {
       name,
       email,
@@ -27,29 +29,53 @@ const Register = () => {
       consecutiveThreshold,
     };
 
-    // Logic to send `formData` to the backend API
-    console.log('Form Data Submitted:', formData);
-    // Make a POST request with formData to your backend
+    const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
+    try {
+      const response = await fetch(`${backendUrl}/api/user/register`, {  
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data= await response.json();
+      
+      if (!response.ok) {
+        
+        throw new Error(data.error);
+      }
+
+     
+      setSuccess('Registration successful!');
+      setError(null);
+      console.log('Response Data:', data);
+      navigate('/dashboard');
+    } catch (error) {
+        // console.log(error);
+      setError(error.message);
+      setSuccess(null);
+    }
   };
 
   return (
     <div>
-        <video autoPlay muted loop id="backgroundVideo">
-          <source src={bgVideo} type="video/mp4" />
-        </video>
+      <video autoPlay muted loop id="backgroundVideo">
+        <source src={bgVideo} type="video/mp4" />
+      </video>
 
-        <div className='h-full '>
-        <div className="flex min-h-full flex-col justify-center px-6  lg:px-8 ">
-            <div class="flex max-w-md mx-auto items-center justify-center">
-                <h1 class="text-white font-bold text-2xl">Weather Me</h1>
-                <img src={logo} alt="" class="w-14 h-14" srcset="" />
-            </div>
+      <div className='h-full'>
+        <div className="flex min-h-full flex-col justify-center px-6 lg:px-8">
+          <div className="flex max-w-md mx-auto items-center justify-center">
+            <h1 className="text-white font-bold text-2xl">Weather Me</h1>
+            <img src={logo} alt="" className="w-14 h-14" />
+          </div>
 
-            <div className=" sm:mx-auto sm:w-full sm:max-w-sm justify-between bg-[#0198afb6] p-3 backdrop-blur-2xl ease-in-out duration-500 rounded-xl  mt-5 p5">
+          <div className="sm:mx-auto sm:w-full sm:max-w-sm justify-between bg-[#0198afb6] p-3 backdrop-blur-2xl ease-in-out duration-500 rounded-xl mt-5 p5">
             <form className="space-y- " onSubmit={handleSubmit}>
-            
-                
-                <div className='flex justify-between'>
+             
+            <div className='flex justify-between'>
                     {/* Name */}
                     <div>
                         <label htmlFor="name" className="text-left block text-sm font-medium leading-6 text-white">Full Name</label>
@@ -91,6 +117,7 @@ const Register = () => {
                     id="password" 
                     name="password" 
                     type="password" 
+                    placeholder='At least 8 characters'
                     required 
                     value={password} 
                     onChange={(e) => setPassword(e.target.value)}
@@ -186,27 +213,31 @@ const Register = () => {
                         </div>
                     </div>
                 </div>
+                
+              <div className="text-center">
+                {error && <p className=" rounded-full text-red-500 cursor-not-allowed font-medium  text-sm  text-center" >{error}</p>}
+                {success && <p className=" rounded-full text-green-500 cursor-not-allowed font-medium  text-sm  text-center">{success}</p>}
+                {!error && !success && <p className="m-7"> {" "}</p>}
+              </div>
 
-
-                {/* Submit button */}
-                <div>
+              {/* Submit button */}
+              <div >
                 <button 
-                    type="submit" 
-                    className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  type="submit" 
+                  className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
-                    Register
+                  Register
                 </button>
-                </div>
-
+              </div>
             </form>
 
-            <p className=" text-center text-sm text-gray-500">
-                Already a member? 
-                <a href="#" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Sign in</a>
+            <p className="text-center text-sm text-gray-500">
+              Already Registered? 
+              <Link to="/login" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Login</Link>
             </p>
-            </div>
+          </div>
         </div>
-        </div>
+      </div>
     </div> 
   );
 };

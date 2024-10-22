@@ -7,6 +7,7 @@ const path = require('path')
 
 const indexRouter=require('./api/index')
 const weatherRouter=require('./api/weather')
+const userRouter=require('./api/user')
 
 
 //initialized express app
@@ -31,6 +32,7 @@ app.use((req, res, next) => {
 //for api routes
 app.use('/api',indexRouter)
 app.use('/api/weather',weatherRouter)
+app.use('/api/user',userRouter)
 
 
 //connect to database and listen to port
