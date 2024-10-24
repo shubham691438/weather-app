@@ -1,10 +1,10 @@
 import React,{useState,useEffect} from 'react'
-import HomeCityCard from '../components/homeCityCard'
+import HomeCityCard from '../components/HomeCityCard'
 import CurrentWeatherDetailCard from '../components/CurrentWeatherDetailCard'
 import WeatherSummary from '../components/WeatherSummary'
 import { useOutletContext } from 'react-router-dom'
 
-const home = () => {
+const Home = () => {
     const city = useOutletContext()
     
 
@@ -166,4 +166,4 @@ const home = () => {
   )
 }
 
-export default home
+export default Home
