@@ -48,13 +48,27 @@ const getWeatherSummaryForLastDays = async (req, res) => {
         const startOfPastDate = new Date(pastDate.setHours(0, 0, 0, 0)); 
 
    
-        const summaries = await DailyWeatherSummary.find({
+        const data = await DailyWeatherSummary.find({
             city,
             date: {
-                $gte: startOfPastDate, 
-                $lte: startOfToday     
+                $gte: startOfPastDate,
+                $lte: startOfToday
             }
         });
+        
+        // Extract unique dates using a Set
+        const uniqueSummaries = data.reduce((acc, curr) => {
+            const dateString = curr.date.toISOString().split('T')[0]; // Convert to YYYY-MM-DD format
+            if (!acc.has(dateString)) {
+                acc.set(dateString, curr); // Store the first entry for each unique date
+            }
+            return acc;
+        }, new Map());
+
+        // Convert the Map back to an array of summaries
+        const summaries = Array.from(uniqueSummaries.values());
+
+        // console.log(summaries);
 
         if (!summaries || summaries.length === 0) {
             return res.status(404).json({ message: `No summaries found for the last ${days} days.` });
