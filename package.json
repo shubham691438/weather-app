@@ -4,7 +4,7 @@
     "start:client": "cd frontend && npm run dev",
     "start:server": "cd backend && npm run dev",
 
-    "install-all":"concurrently \"npm run install-all:client\" \"npm run install-all:server\"",
+    "install":"concurrently \"npm run install-all:client\" \"npm run install-all:server\"",
     "install-all:client": "cd frontend && npm install",
     "install-all:server": "cd backend && npm install"
   },
