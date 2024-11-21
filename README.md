@@ -17,7 +17,7 @@ The system is built to handle weather data for major metro cities in India (Delh
 
 ## Demo
 - Video Demo of Appication :https://www.youtube.com/watch?v=r4kVzOhUw4M
-- Live Demo of Application : weather-app-ruddy-two-88.vercel.app/
+- Live Demo of Application : https://weather-app-ruddy-two-88.vercel.app/
 
 
 ## Tech Stack
